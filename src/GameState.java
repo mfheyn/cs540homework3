@@ -34,58 +34,68 @@ class GameState {
       public List<GameState> getNextStates() {
         List<GameState> successors = new ArrayList<>();        
 
-        ArrayList<ZeroLocation> zeroLocations = new ArrayList();
+        ArrayList<BlockLocation> zeroLocations = new ArrayList();
         for (int i = 0; i < board.length; i++) {
           for (int j = 0; j < board[j].length; j++) {
             if (board[i][j] == 0) {
-              zeroLocations.add(new ZeroLocation(i,j));
+              zeroLocations.add(new BlockLocation(i,j));
             }
           }
         }
 
+        ArrayList<BlockLocation> fourLocations = new ArrayList();
+        for (int i = 0; i < board.length; i++) {
+          for (int j = 0; j < board[j].length; j++) {
+            if (board[i][j] == 4) {
+              fourLocations.add(new BlockLocation(i,j));
+            }
+          }
+        }
 
-        for (ZeroLocation zeroLoc : zeroLocations) {
-          ArrayList<GameState> potentialNextStates = new ArrayList();
-          Integer up,down,left,right;
-//          up = null;
-//          down = null;
-//          left = null;
-//          right = null;
-//          try {
-//            up = board[zeroLoc.row + 1][zeroLoc.column];
-//          } catch(Exception e) {};
-//          try {
-//            right = board[zeroLoc.row][zeroLoc.column + 1];
-//          } catch(Exception e) {};
-//          try {
-//            down = board[zeroLoc.row - 1][zeroLoc.column];
-//          } catch(Exception e) {};
-//          try {
-//            left = board[zeroLoc.row][zeroLoc.column -1];
-//          } catch(Exception e) {};
-//
-//          if (up != null) {
-//            GameState potentialState = getUpSuccessor(up, zeroLoc, potentialNextStates);
-//            if (potentialState == null) {
-//              potentialNextStates.add(potentialState);
-//            }
-//          }
-//          if (down != null) {
-//
-//          }
-//          if(right != null) {
-//
-//          }
-//          if(left != null) {
-//
-//          }
+        for (BlockLocation zeroLoc : zeroLocations) {        
+//          up = getValueFromBoard(zeroLoc.row - 1, zeroLoc.column);
+//          down = getValueFromBoard(zeroLoc.row + 1, zeroLoc.column);
+//          right = getValueFromBoard(zeroLoc.row, zeroLoc.column + 1);
+//          left = getValueFromBoard(zeroLoc.row, zeroLoc.column - 1);
+          GameState[] directionalSuccessors = new GameState[4];
+          
+          GameState upGameState = getSuccessor(zeroLoc, 'u');
+          GameState downGameState = getSuccessor(zeroLoc, 'd');
+          GameState rightGameState = getSuccessor(zeroLoc, 'r');
+          GameState leftGameState = getSuccessor(zeroLoc, 'l');
+          
+          if (upGameState != null) {
+            successors.add(upGameState);
+          }
+          if (downGameState != null) {
+            successors.add(downGameState);
+          }
+          if(rightGameState != null) {
+            successors.add(rightGameState);
+          }
+          if(leftGameState != null) {
+            successors.add(leftGameState);
+          }
+                    
+          
+          for (BlockLocation fourLocation: zeroLocations) {
+            GameState anotherState = new GameState(this, 0);
+            anotherState.board[zeroLoc.row][zeroLoc.column] = 4;
+            anotherState.board[fourLocation.row][fourLocation.column] = 0;
+            successors.add(anotherState);
+          }
         }
 
 
         return successors;
       }
 
-      public GameState getSuccessor(ZeroLocation zeroLoc, char direction) {
+//      public GameState getFourSuccessors() {
+//        
+//      }
+      
+      //get successors in a particular direction given the location of the zero's
+      public GameState getSuccessor(BlockLocation zeroLoc, char direction) {
         Integer number;
         GameState potentialState = null;
 
@@ -335,42 +345,6 @@ class GameState {
       public Integer getValueFromBoard(int row, int column) {
         Integer value = null;
 
-        //      if (direction == 'u')
-        //      {
-        //        try {
-        //          value = board[row + 1][column];
-        //        } catch (Exception e) {};
-        //        return value;
-        //      }
-        //      else if (direction == 'd')
-        //      {
-        //        try {
-        //          value = board[row - 1][column];
-        //        } catch (Exception e) {};
-        //        return value;
-        //      }
-        //      else if (direction == 'r')
-        //      {
-        //        try {
-        //          value = board[row][column + 1];
-        //        } catch (Exception e) {};
-        //        return value;
-        //      }
-        //      else if (direction == 'l')
-        //      {
-        //        try {
-        //          value = board[row][column - 1];
-        //        } catch (Exception e) {};
-        //        return value;
-        //      }
-        //      //if the direction isn't specified, then return the current location
-        //      else
-        //      {
-        //        try {
-        //          value = board[row][column];
-        //        } catch (Exception e) {};
-        //        return value;
-        //      }
         try {
           value = board[row][column];
         } catch (Exception e) {};

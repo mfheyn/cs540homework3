@@ -1,6 +1,6 @@
-class ZeroLocation {
+class BlockLocation {
   public int row, column;
-  public ZeroLocation(int row, int column) {
+  public BlockLocation(int row, int column) {
     this.row = row;
     this.column = column;
   }
