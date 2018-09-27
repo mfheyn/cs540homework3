@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 class GameState {      
@@ -7,12 +8,12 @@ class GameState {
   public int cost = 0;
   public int steps = 0;
 
-  public GameState(int [][] inputBoard, int steps) {
-    for(int i = 0; i < 5; i++)
-      for(int j = 0; j < 4; j++)
-        this.board[i][j] = inputBoard[i][j];
-    this.steps = steps;
-  }
+//  public GameState(int [][] inputBoard, int steps) {
+//    for(int i = 0; i < 5; i++)
+//      for(int j = 0; j < 4; j++)
+//        this.board[i][j] = inputBoard[i][j];
+//    this.steps = steps;
+//  }
 
   public GameState(GameState gameState, int addCost) {
     for(int i = 0; i < 5; i++)
@@ -57,7 +58,6 @@ class GameState {
       //          down = getValueFromBoard(zeroLoc.row + 1, zeroLoc.column);
       //          right = getValueFromBoard(zeroLoc.row, zeroLoc.column + 1);
       //          left = getValueFromBoard(zeroLoc.row, zeroLoc.column - 1);
-      GameState[] directionalSuccessors = new GameState[4];
 
       GameState upGameState = getSuccessor(zeroLoc, 'u');
       GameState downGameState = getSuccessor(zeroLoc, 'd');
@@ -78,7 +78,7 @@ class GameState {
       }
 
 
-      for (BlockLocation fourLocation: zeroLocations) {
+      for (BlockLocation fourLocation: fourLocations) {
         GameState anotherState = new GameState(this, 0);
         anotherState.board[zeroLoc.row][zeroLoc.column] = 4;
         anotherState.board[fourLocation.row][fourLocation.column] = 0;
@@ -86,9 +86,17 @@ class GameState {
       }
     }
 
+    successors.sort(compByID);
 
     return successors;
   }
+  
+  public Comparator<GameState> compByID = new Comparator<GameState>() {
+    @Override
+    public int compare(GameState o1, GameState o2) {
+      return o1.getStateID().compareTo(o2.getStateID());
+    }
+};  
 
   //get successors in a particular direction given the location of the zero's
   public GameState getSuccessor(BlockLocation zeroLoc, char direction) {

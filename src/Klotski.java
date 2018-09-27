@@ -20,7 +20,7 @@ public class Klotski {
                 board[i][j] = Integer.parseInt(args[i * 4 + j + 1]);
             }                
         }        
-        GameState s = new GameState(board, 0);
+        GameState s = new GameState(board);
 
         if (flag == 100) {
             printNextStates(s);
