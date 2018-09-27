@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class Klotski {   
     public static void printNextStates(GameState s) {
         List<GameState> states = s.getNextStates();
