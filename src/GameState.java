@@ -34,17 +34,17 @@ class GameState {
       public List<GameState> getNextStates() {
         List<GameState> successors = new ArrayList<>();        
 
-        ArrayList<ZeroLocations> zeroLocations = new ArrayList();
+        ArrayList<ZeroLocation> zeroLocations = new ArrayList();
         for (int i = 0; i < board.length; i++) {
           for (int j = 0; j < board[j].length; j++) {
             if (board[i][j] == 0) {
-              zeroLocations.add(new ZeroLocations(i,j));
+              zeroLocations.add(new ZeroLocation(i,j));
             }
           }
         }
 
 
-        for (ZeroLocations zeroLoc : zeroLocations) {
+        for (ZeroLocation zeroLoc : zeroLocations) {
           ArrayList<GameState> potentialNextStates = new ArrayList();
           Integer up,down,left,right;
 //          up = null;
@@ -85,7 +85,7 @@ class GameState {
         return successors;
       }
 
-      public GameState getSuccessor(ZeroLocations zeroLoc, char direction) {
+      public GameState getSuccessor(ZeroLocation zeroLoc, char direction) {
         Integer number;
         GameState potentialState = null;
 
@@ -404,12 +404,4 @@ class GameState {
 
       // add new methods for the GameState if necessary        
 
-}
-
-class ZeroLocations {
-  public int row, column;
-  public ZeroLocations(int row, int column) {
-    this.row = row;
-    this.column = column;
-  }
 }
