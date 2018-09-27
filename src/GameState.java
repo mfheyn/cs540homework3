@@ -5,33 +5,40 @@ import java.util.List;
 class GameState {      
   public int[][] board = new int[5][4];
   public GameState parent = null;
-  public int cost = 0;
+  public int heuristicCost = 0;
   public int steps = 0;
+  public int totalCost;
 
-//  public GameState(int [][] inputBoard, int steps) {
-//    for(int i = 0; i < 5; i++)
-//      for(int j = 0; j < 4; j++)
-//        this.board[i][j] = inputBoard[i][j];
-//    this.steps = steps;
-//  }
+  public GameState(int [][] inputBoard, int steps) {
+    for(int i = 0; i < 5; i++)
+      for(int j = 0; j < 4; j++)
+        this.board[i][j] = inputBoard[i][j];
+    this.steps = steps;
+    setTotalCost();
+  }
 
-  public GameState(GameState gameState, int addCost) {
+  public GameState(GameState gameState, int setCost) {
     for(int i = 0; i < 5; i++)
       for(int j = 0; j < 4; j++)
         this.board[i][j] = gameState.board[i][j];
     this.parent = gameState;
-    this.cost += addCost;
+    this.heuristicCost = setCost;
     this.steps += 1;
+    setTotalCost();
   }
 
   public GameState(int [][] inputBoard) {
     for(int i = 0; i < 5; i++)
       for(int j = 0; j < 4; j++)
         this.board[i][j] = inputBoard[i][j];
+    setTotalCost();
   }
 
-
-  // TODO: get all successors and return them in sorted order
+  public void setTotalCost() {
+    totalCost = heuristicCost + steps;
+  }
+  
+  // get all successors and return them in sorted order
   public List<GameState> getNextStates() {
     List<GameState> successors = new ArrayList<>();        
 
@@ -97,6 +104,11 @@ class GameState {
       return o1.getStateID().compareTo(o2.getStateID());
     }
 };  
+
+  public void printCosts() {
+    System.out.println(totalCost+ " " + steps + " " + heuristicCost);
+    return;
+  }
 
   //get successors in a particular direction given the location of the zero's
   public GameState getSuccessor(BlockLocation zeroLoc, char direction) {
@@ -382,5 +394,10 @@ class GameState {
   }
 
   // add new methods for the GameState if necessary        
-
+  public boolean equals(GameState o) {
+    if (this.getStateID().equals(o.getStateID()))
+      return true;
+    else
+      return false;
+  }
 }

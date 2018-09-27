@@ -20,16 +20,17 @@ public class Klotski {
                 board[i][j] = Integer.parseInt(args[i * 4 + j + 1]);
             }                
         }        
-        GameState s = new GameState(board);
+        GameState s = new GameState(board, 0);
 
         if (flag == 100) {
             printNextStates(s);
             return;
         }
-
-//        AStarSearch search = new AStarSearch();        
-//        search.aStarSearch(flag, s);  
         
+        if (flag == 200) {
+          AStarSearch search = new AStarSearch();        
+          search.aStarSearch(flag, s);  
+        }
     }
 
 }
