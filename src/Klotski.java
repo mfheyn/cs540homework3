@@ -27,8 +27,8 @@ public class Klotski {
             return;
         }
 
-        AStarSearch search = new AStarSearch();        
-        search.aStarSearch(flag, s);  
+//        AStarSearch search = new AStarSearch();        
+//        search.aStarSearch(flag, s);  
         
     }
 

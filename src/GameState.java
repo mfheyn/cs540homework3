@@ -90,10 +90,6 @@ class GameState {
     return successors;
   }
 
-  //      public GameState getFourSuccessors() {
-  //        
-  //      }
-
   //get successors in a particular direction given the location of the zero's
   public GameState getSuccessor(BlockLocation zeroLoc, char direction) {
     Integer number;
